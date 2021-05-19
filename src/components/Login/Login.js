@@ -59,32 +59,35 @@ const Login = (props) => {
     isValid: null,
   })
 
-  // useEffect(() => {
-  //   const identifier = setTimeout(() => {
-  //     console.log('Checking for validity')
-  //     setFormIsValid(
-  //       enteredEmail.includes('@') && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500)
+  const {isValid: emailIsValid} = emailState; //alias assignment - object destructuring, not a value assignment because it's on the left side of the equal sign
+  const {isValid: passwordIsValid} = passwordState
 
-  //   return () => {
-  //     console.log('CLEANUP')
-  //     clearTimeout(identifier)
-  //   }
-  // }, [enteredEmail, enteredPassword]);
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log('Checking for validity')
+      setFormIsValid(
+       emailIsValid && passwordIsValid
+      );
+    }, 500)
+
+    return () => {
+      console.log('CLEANUP')
+      clearTimeout(identifier)
+    }
+  }, [emailIsValid, passwordIsValid]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: 'USER_EMAIL', val: event.target.value })
-    setFormIsValid(
-      event.target.value.includes('@') && passwordState.isValid
-    );
+    // setFormIsValid(
+    //   event.target.value.includes('@') && passwordState.isValid
+    // );
   };
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({type: 'USER_PASSWORD', val: event.target.value})
-    setFormIsValid(
-      emailState.isValid && event.target.value.trim().length > 6
-    );
+    // setFormIsValid(
+    //   emailState.isValid && event.target.value.trim().length > 6
+    // );
   };
 
   const validateEmailHandler = () => {
