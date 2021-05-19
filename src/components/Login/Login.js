@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
+import AuthContext from '../../context/auth-context';
 
 const emailReducer = (state, action) => {
   if (action.type === 'USER_EMAIL') {
@@ -60,7 +61,9 @@ const Login = (props) => {
   })
 
   const {isValid: emailIsValid} = emailState; //alias assignment - object destructuring, not a value assignment because it's on the left side of the equal sign
-  const {isValid: passwordIsValid} = passwordState
+  const {isValid: passwordIsValid} = passwordState;
+
+  const useCtx = useContext(AuthContext);
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -100,7 +103,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    useCtx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
